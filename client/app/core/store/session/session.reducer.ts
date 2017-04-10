@@ -10,8 +10,6 @@ import {actionTypes} from 'redux-localstorage'
 export const sessionReducer = (
   state: ISessionRecord = INITIAL_STATE,
   action: IPayloadAction) => {
-  console.log("action", action);
-  console.log("state", state);
   switch (action.type) {
     case SessionActions.LOGIN_USER:
       return state.merge({
@@ -29,6 +27,7 @@ export const sessionReducer = (
         user: UserFactory(action.payload.user),
         hasError: false,
         isLoading: false,
+        hasMessage :null
       });
 
     case SessionActions.LOGIN_USER_ERROR:
@@ -37,17 +36,15 @@ export const sessionReducer = (
         user: INITIAL_USER_STATE,
         hasError: true,
         isLoading: false,
+        hasMessage :null
       });
 
     case SessionActions.LOGOUT_USER:
-      console.log("logout user state", action, state);
-      console.log(INITIAL_STATE);
       localStorage.removeItem('currentUser');
       return INITIAL_STATE;
 
     case actionTypes.INIT:
       const persistedState = action.payload;
-      console.log('persistedState', persistedState);
       if (persistedState) {
         return state.merge({
           token: persistedState.session.token,
@@ -56,9 +53,34 @@ export const sessionReducer = (
           isLoading: persistedState.session.isLoading,
         });
       }
+      case SessionActions.PUT_USER :
+       {
+        return state.merge({
+          token : JSON.parse(localStorage.getItem('token')).token,
+          user: UserFactory(JSON.parse(localStorage.getItem('currentUser'))),
+          hasMessage: action.payload,
+          hasError: false,
+          isLoading: true
+        });
+      }
+        case SessionActions.PUT_USER_SUCCESS:
+          return state.merge({
+            token : JSON.parse(localStorage.getItem('token')).token,
+            user: UserFactory(JSON.parse(localStorage.getItem('currentUser'))),
+            hasMessage : action.payload,
+            hasError: false,
+            isLoading: false
+          });
 
+        case SessionActions.PUT_USER_ERROR:
+          return state.merge({
+            token: null,
+            user: INITIAL_USER_STATE,
+            hasError: true,
+            isLoading: false,
+            message:'error'
 
-
+        });
     default:
       return state;
   }

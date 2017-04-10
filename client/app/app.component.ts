@@ -4,7 +4,7 @@ import {
   NgRedux
 } from '@angular-redux/store';
 import {NgReduxRouter} from '@angular-redux/router';
-import {createEpicMiddleware} from 'redux-observable';
+import {createEpicMiddleware, combineEpics} from 'redux-observable';
 import {
   IAppState,
   rootReducer,
@@ -26,14 +26,17 @@ export class AppComponent {
   isToggled: boolean;
   isNormalScreen:boolean=true;
   subscription: Subscription;
+  EPICS = combineEpics(
+    this.epics.login,
+    this.epics.editProfile
+  );
   constructor(
     private devTools: DevToolsExtension,
     private ngRedux: NgRedux<IAppState>,
     private ngReduxRouter: NgReduxRouter,
     private epics: SessionEpics,
     private ToggleNavService: ToggleNavService) {
-
-    middleware.push(createEpicMiddleware(this.epics.login));
+    middleware.push(createEpicMiddleware(this.EPICS));
 
     ngRedux.configureStore(
       rootReducer,

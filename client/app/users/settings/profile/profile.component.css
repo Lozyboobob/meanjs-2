@@ -20,3 +20,13 @@
   margin: 0 auto;
   width: 10%;
 }
+.text-success{
+  color : green;
+  width: 15%;
+  margin : 0 auto;
+}
+.text-danger{
+  color :red;
+  width: 15%;
+  margin : 0 auto;
+}

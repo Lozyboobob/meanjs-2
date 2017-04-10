@@ -37,7 +37,9 @@ var AppSidenavComponent = (function () {
         this.subscription = this.ToggleNavService.toggle().subscribe(function (toggled) {
             _this.isToggled = toggled;
         });
-        this.state = this.ngRedux.getState();
+        this.ngRedux.subscribe(() =>{
+          this.state=this.ngRedux.getState();
+        })
     }
     AppSidenavComponent.prototype.ngOnInit = function () { };
     AppSidenavComponent.prototype.ngAfterViewInit = function () {

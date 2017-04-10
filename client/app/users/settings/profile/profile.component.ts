@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import {UsersService} from '../../index';
 import { Observable } from 'rxjs/Observable';
 import { select } from '@angular-redux/store';
+import { SessionActions } from '../../../core/actions';
+import { NgRedux } from '@angular-redux/store';
+import { IAppState } from '../../../core/store';
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -9,22 +13,22 @@ import { select } from '@angular-redux/store';
 })
 export class ProfileComponent implements OnInit {
   user={};
-  @select(s => s.session.token) loggedIn$: Observable<boolean>;
-
-  constructor(private usersService : UsersService) { }
+  state :Object;
+  constructor(private usersService : UsersService,
+                private actions : SessionActions, private ngRedux: NgRedux<IAppState> ) {
+  this.ngRedux.subscribe(() =>{
+    this.state=this.ngRedux.getState();
+  })
+ }
 
   ngOnInit() {
-    if(this.loggedIn$){
-      this.loggedIn$.subscribe((token)=>{
-        this.usersService.getProfile(token)
-          .subscribe((rep)=>{
-            this.user = rep;
-          })
-      })
-    }
-
-    console.log()
-
+      this.usersService.getProfile()
+        .subscribe((rep)=>{
+          this.user = rep;
+        })
+      }
+  saveProfile(user){
+    this.actions.editProfile(user);
   }
 
 }

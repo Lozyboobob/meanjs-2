@@ -11,7 +11,6 @@ import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { ProfileComponent } from './settings/profile/profile.component';
 
-
 @NgModule({
   imports: [
     USERS_ROUTES,

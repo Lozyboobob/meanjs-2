@@ -9,6 +9,9 @@ export class SessionActions {
   static LOGIN_USER_SUCCESS = 'LOGIN_USER_SUCCESS';
   static LOGIN_USER_ERROR = 'LOGIN_USER_ERROR';
   static LOGOUT_USER = 'LOGOUT_USER';
+  static PUT_USER = 'PUT_USER';
+  static PUT_USER_SUCCESS = 'PUT_USER_SUCCESS';
+  static PUT_USER_ERROR = 'PUT_USER_ERROR';
 
   constructor(private ngRedux: NgRedux<IAppState>) { }
 
@@ -22,6 +25,13 @@ export class SessionActions {
   logoutUser() {
     return this.ngRedux.dispatch({ type: SessionActions.LOGOUT_USER });
   };
+
+  editProfile(user) {
+    this.ngRedux.dispatch({
+      type: SessionActions.PUT_USER,
+      payload: user,
+    });
+  }
 }
 
 export interface IPayloadAction extends Action {

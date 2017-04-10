@@ -1,4 +1,4 @@
-  <form flex="100" class="base" name="vm.userForm" ng-submit="vm.updateUserProfile(vm.userForm.$valid)" novalidate autocomplete="off">
+  <form flex="100" class="base" name="userForm" novalidate autocomplete="off" #userForm="ngForm">
     <md-input-container class="md-icon-float md-block" show-errors>
       <input mdInput [(ngModel)]="user.firstName" type="text" placeholder="First Name" id="firstName" name="firstName" required autofocus />
     </md-input-container>
@@ -17,12 +17,12 @@
   </div>
 
     <div class="center-align">
-      <button md-raised-button color="primary" type="submit">Save Profile</button>
+      <button (click)="saveProfile(user)" md-raised-button color="primary" type="button">Save Profile</button>
     </div>
-    <div *ngIf="success" class="center-align text-success">
-      <strong>Profile Saved Successfully</strong>
+    <div *ngIf="state?.session.hasMessage?.get('type')==='success'" class="center-align text-success">
+      <strong>{{state?.session.hasMessage?.get('message')}}</strong>
     </div>
-    <div type="danger" *ngIf="error" class="center-align text-danger">
-      <span ng-bind="vm.error"></span>
+    <div type="danger" *ngIf="state?.session.hasMessage?.get('type')==='echec'" class="center-align text-danger">
+      <span>{{state?.session.hasMessage?.get('message')}}</span>
     </div>
 </form>

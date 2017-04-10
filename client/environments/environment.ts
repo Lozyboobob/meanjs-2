@@ -13,7 +13,7 @@ export const environment = {
             signup: '/api/auth/signup',
             signin: '/api/auth/signin',
             articles :'/api/articles',
-            me : '/api/users/me'
+            users : '/api/users'
         }
     }
 };

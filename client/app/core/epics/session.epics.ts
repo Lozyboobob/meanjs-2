@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-import {
-  Http,
-  Response
-} from '@angular/http';
+import { Http, Headers, RequestOptions, Response } from '@angular/http';
+import { combineEpics } from 'redux-observable';
 import { IPayloadAction, SessionActions } from '../actions';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
@@ -16,6 +14,7 @@ import { environment } from "../../../environments/environment";
 @Injectable()
 export class SessionEpics {
   _baseUrl : string ;
+
   constructor(private http: Http) {
               this._baseUrl = `${environment.backend.protocol}://${environment.backend.host}`;
         if (environment.backend.port) {
@@ -38,4 +37,33 @@ export class SessionEpics {
           }));
         });
   }
+  editProfile = (action$: Observable<IPayloadAction>) => {
+    return action$
+      .filter<IPayloadAction>(({ type }) => type === SessionActions.PUT_USER)
+      .mergeMap<IPayloadAction, IPayloadAction>(({ payload }) => {
+        let backendURL = `${this._baseUrl}${environment.backend.endpoints.users}` ;
+        return this.http.put(backendURL,payload,this.jwt(this.getToken()))
+          .map<Response, IPayloadAction>(result => ({
+            type: SessionActions.PUT_USER_SUCCESS,
+            payload: {type : 'success',message: 'Profile Saved Successfully'}
+          }))
+          .catch<any, Action>(() => Observable.of({
+            type: SessionActions.PUT_USER_ERROR,
+            payload: {type : 'echec',message: 'Profile not Saved Successfully'}
+
+          }));
+        });
+    }
+
+    private getToken(){
+      return JSON.parse(localStorage.getItem('token')).token;
+    }
+    private jwt(token) {
+        // create authorization header with jwt token
+        if (token) {
+            let headers = new Headers({ 'Authorization': 'JWT ' + token, 'Content-Type': 'application/json'});
+            return new RequestOptions({ headers: headers });
+        }
+    }
+
 }
