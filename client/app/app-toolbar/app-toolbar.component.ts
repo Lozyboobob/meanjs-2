@@ -14,8 +14,8 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class AppToolbarComponent implements OnInit {
   @Input() titleToolbar: string;
-  @select(s => !s.session.token) loggedIn$: Observable<boolean>;
-  @select(s => !!s.session.token) loggedOut$: Observable<boolean>;
+  @select(AppToolbarComponent.isLoggedIn) loggedIn$: Observable<boolean>;
+  @select(AppToolbarComponent.isLoggedOut) loggedOut$: Observable<boolean>;
   isToggled: boolean;
   isNormalScreen: boolean = true;
   subscription: Subscription;
@@ -57,4 +57,8 @@ export class AppToolbarComponent implements OnInit {
     console.log('toot:', toto);
   }
 
+  static isLoggedIn(s){ return !s.session.token; }
+  static isLoggedOut(s){ return !!s.session.token; }
+
 }
+

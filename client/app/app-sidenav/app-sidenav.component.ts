@@ -6,6 +6,8 @@ import { Subscription } from 'rxjs/Subscription';
 import { NgRedux } from '@angular-redux/store';
 import { IAppState } from '../core/store';
 import { MenuService } from '../core/services/menu.client.service';
+
+
 @Component({
   selector: 'app-app-sidenav',
   templateUrl: './app-sidenav.component.html',
@@ -20,7 +22,7 @@ export class AppSidenavComponent implements OnInit {
   //Menu Item
   menuList: Array<Object> = [];
   state:Object;
-  @select(s => s.session.token) loggedIn$: Observable<boolean>;
+  @select(AppSidenavComponent.isLoggedIn) loggedIn$: Observable<boolean>;
   @ViewChild('sidenav') sidenav: ElementRef;
   constructor(private ToggleNavService: ToggleNavService, private ngRedux: NgRedux<IAppState>, private menuService : MenuService) {
     this.menuList =menuService.getMenu('sideNav').items;
@@ -36,6 +38,9 @@ export class AppSidenavComponent implements OnInit {
       this.state=this.ngRedux.getState();
     })
   }
+
+  static isLoggedIn(s){ return s.session.token; }
+
   ngAfterViewInit() {
     var sidenav = this.sidenav.nativeElement;
     console.log(sidenav); // or whatever
