@@ -17,7 +17,6 @@ export class PasswordComponent implements OnInit {
   constructor(private actions : SessionActions, private ngRedux: NgRedux<IAppState>) {
     this.ngRedux.subscribe(() =>{
       this.state=this.ngRedux.getState();
-      console.log('state',this.state)
     })
     this.form = this._buildForm();
   }

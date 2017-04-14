@@ -21,15 +21,7 @@ var UsersService = (function () {
     }
     UsersService.prototype.signup = function (user) {
         var backendURL = "" + this._baseUrl + environment.backend.endpoints.signup;
-        return this.http.post(backendURL, user, this.jwt()).map(function (response) { return response.json(); });
-    };
-    UsersService.prototype.jwt = function () {
-        console.log("getcurrenUser");
-        var currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        if (currentUser && currentUser.token) {
-            var headers = new Headers({ 'Authorization': 'Bearer ' + currentUser.token });
-            return new RequestOptions({ headers: headers });
-        }
+        return this.http.post(backendURL, user).map(function (response) { return response.json(); });
     };
     return UsersService;
 }());

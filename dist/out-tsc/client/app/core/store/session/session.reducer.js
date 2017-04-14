@@ -14,7 +14,6 @@ export var sessionReducer = function (state, action) {
                 isLoading: true
             });
         case SessionActions.LOGIN_USER_SUCCESS:
-            console.log('state:', state);
             return state.merge({
                 token: action.payload.token,
                 user: UserFactory(action.payload.user),

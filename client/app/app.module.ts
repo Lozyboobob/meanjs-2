@@ -51,7 +51,8 @@ import {UsersModule} from './users/index';
     ArticlesModule,
     Angular2FontAwesomeModule,
     MaterialModule.forRoot(),
-    UsersModule
+    UsersModule,
+
   ],
   providers: [
     OverlayContainer,

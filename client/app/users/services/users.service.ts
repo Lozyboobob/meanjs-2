@@ -6,7 +6,6 @@ import { Observable } from "rxjs";
 
 import { User } from '../models/index';
 import { environment } from "../../../environments/environment";
-const HEADER = { headers: new Headers({ 'Content-Type': 'application/json' }) };
 
 @Injectable()
 export class UsersService {
@@ -24,36 +23,17 @@ export class UsersService {
         return this.http.post(backendURL, user).map((response: Response) => response.json());
     }
 
-    Auth(){
-      return JSON.parse(localStorage.getItem('currentUser'));
-    }
-    getToken(){
-      return JSON.parse(localStorage.getItem('token'))?JSON.parse(localStorage.getItem('token')).token :null;
-    }
-
-    getProfile (): Observable<any> {
-      let token =this.getToken();
+  getProfile (): Observable<any> {
       let backendURL = `${this._baseUrl}${environment.backend.endpoints.users}/me` ;
-      return this.http.get(backendURL, this.jwt(token)).map((response: Response) => response.json());
+      return this.http.get(backendURL).map((response: Response) => response.json());
     }
     editProfile(user):Observable<any>{
-      let token =this.getToken();
       let backendURL = `${this._baseUrl}${environment.backend.endpoints.users}` ;
       console.log('backendURL',backendURL)
-      return this.http.put(backendURL,this.jwt(token), user).map((response: Response) => response.json());
+      return this.http.put(backendURL, user).map((response: Response) => response.json());
     }
     getUsers():Observable<any>{
-      let token =this.getToken();
-      console.log(token)
       let backendURL = `${this._baseUrl}${environment.backend.endpoints.users}` ;
-      return this.http.get(backendURL, this.jwt(token)).map((response: Response) => response.json());
-    }
-    // private helper methods
-    jwt(token) {
-        // create authorization header with jwt token
-        if (token) {
-            let headers = new Headers({ 'Authorization': 'JWT ' + token, 'Content-Type': 'application/json'});
-            return new RequestOptions({ headers: headers });
-        }
+      return this.http.get(backendURL).map((response: Response) => response.json());
     }
 }

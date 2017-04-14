@@ -16,14 +16,14 @@ export class ProfileComponent implements OnInit {
   state :Object;
   constructor(private usersService : UsersService,
                 private actions : SessionActions, private ngRedux: NgRedux<IAppState> ) {
-  this.ngRedux.subscribe(() =>{
-    this.state=this.ngRedux.getState();
-    this.user = JSON.parse(JSON.stringify(this.state)).session.user;
-  })
+      this.ngRedux.subscribe(() =>{
+          this.state=this.ngRedux.getState();
+      })
  }
 
   ngOnInit() {
     this.actions.getProfile();
+    // ;
   }
   saveProfile(user){
     this.actions.editProfile(user);

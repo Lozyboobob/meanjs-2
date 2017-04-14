@@ -1,18 +1,18 @@
   <form flex="100" class="base" name="userForm" novalidate autocomplete="off" #userForm="ngForm">
     <md-input-container class="md-icon-float md-block" show-errors>
-      <input mdInput [(ngModel)]="user.firstName" type="text" placeholder="First Name" id="firstName" name="firstName" required autofocus />
+      <input mdInput [(ngModel)]="state?.session.user.firstName" type="text" placeholder="First Name" id="firstName" name="firstName" required autofocus />
     </md-input-container>
 
     <md-input-container class="md-icon-float md-block" show-errors>
-      <input mdInput [(ngModel)]="user.lastName" type="text" placeholder="Last Name" id="lastName" name="lastName" required />
+      <input mdInput [(ngModel)]="state?.session.user.lastName" type="text" placeholder="Last Name" id="lastName" name="lastName" required />
     </md-input-container>
 
     <md-input-container class="md-icon-float md-block" show-errors>
-      <input mdInput  [(ngModel)]="user.email"  type="text" placeholder="Email" id="email" name="email" lowercase required />
+      <input mdInput  [(ngModel)]="state?.session.user.email"  type="text" placeholder="Email" id="email" name="email" lowercase required />
     </md-input-container>
    <div>
     <md-input-container class="md-icon-float md-block" show-errors>
-      <input mdInput [(ngModel)]="user.username" type="text" id="username" placeholder="Username" name="username" lowercase required class="md2 md-input" />
+      <input mdInput [(ngModel)]="state?.session.user.username" type="text" id="username" placeholder="Username" name="username" lowercase required class="md2 md-input" />
     </md-input-container>
   </div>
       <div class="center-align">

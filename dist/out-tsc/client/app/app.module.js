@@ -14,7 +14,7 @@ import 'hammerjs';
 import { NgReduxModule } from '@angular-redux/store';
 import { NgReduxRouterModule } from '@angular-redux/router';
 import { APP_ROUTES } from './app.routes';
-import { UsersService, AuthInterceptor } from './users/index';
+import { UsersService } from './users/index';
 import { SessionActions } from './core/actions/session.actions';
 import { SessionEpics } from './core/epics';
 import { AppComponent } from './app.component';
@@ -50,7 +50,6 @@ AppModule = __decorate([
         ],
         providers: [
             OverlayContainer,
-            AuthInterceptor,
             SessionActions,
             SessionEpics,
             UsersService

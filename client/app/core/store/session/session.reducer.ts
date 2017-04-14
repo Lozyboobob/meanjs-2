@@ -20,8 +20,6 @@ export const sessionReducer = (
       });
 
     case SessionActions.LOGIN_USER_SUCCESS:
-      localStorage.setItem('currentUser', JSON.stringify(UserFactory(action.payload.user)));
-      localStorage.setItem('token', JSON.stringify(action.payload.token));
       return state.merge({
         token: action.payload.token,
         user: UserFactory(action.payload.user),
@@ -42,8 +40,6 @@ export const sessionReducer = (
       });
 
     case SessionActions.LOGOUT_USER:
-      localStorage.removeItem('currentUser');
-      localStorage.removeItem('token');
       return state.merge({
         token: null,
         user: INITIAL_USER_STATE,
@@ -72,7 +68,6 @@ export const sessionReducer = (
         });
       }
         case SessionActions.PUT_USER_SUCCESS:
-          localStorage.setItem('currentUser',JSON.stringify(UserFactory(action.payload.user)))
           return state.merge({
             user: UserFactory(action.payload.user),
             hasMessage : action.payload.hasMessage,

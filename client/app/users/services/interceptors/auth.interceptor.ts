@@ -28,4 +28,4 @@ export class AuthInterceptor implements CanActivate {
             return false;
         });
     }
-}
+  }

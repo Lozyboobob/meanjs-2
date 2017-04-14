@@ -43,7 +43,7 @@ export class SessionEpics {
       .filter<IPayloadAction>(({ type }) => type === SessionActions.PUT_USER)
       .mergeMap<IPayloadAction, IPayloadAction>(({ payload }) => {
         let backendURL = `${this._baseUrl}${environment.backend.endpoints.users}` ;
-        return this.http.put(backendURL,payload,this.jwt(this.getToken()))
+        return this.http.put(backendURL,payload)
           .map<Response, IPayloadAction>(result => ({
             type: SessionActions.PUT_USER_SUCCESS,
             payload:{user : result.json(), hasMessage : {type : 'success',message: 'Profile Saved Successfully'}}
@@ -61,7 +61,7 @@ export class SessionEpics {
         .filter<IPayloadAction>(({ type }) => type === SessionActions.GET_USER)
         .mergeMap<IPayloadAction, IPayloadAction>(({ payload }) => {
           let backendURL = `${this._baseUrl}${environment.backend.endpoints.users}/me` ;
-          return this.http.get(backendURL,this.jwt(this.getToken()))
+          return this.http.get(backendURL)
             .map<Response, IPayloadAction>(result => ({
               type: SessionActions.GET_USER_SUCCESS,
               payload: result.json()
@@ -78,7 +78,7 @@ export class SessionEpics {
      .filter<IPayloadAction>(({ type }) => type === SessionActions.CHANGE_PASSWORD)
      .mergeMap<IPayloadAction, IPayloadAction>(({ payload }) => {
        let backendURL = `${this._baseUrl}${environment.backend.endpoints.users}/password` ;
-       return this.http.post(backendURL,payload, this.jwt(this.getToken()))
+       return this.http.post(backendURL,payload)
          .map<Response, IPayloadAction>(result => ({
            type: SessionActions.CHANGE_PASSWORD_SUCCESS,
            payload: {type : 'success',message:result.json().message}
@@ -90,17 +90,4 @@ export class SessionEpics {
          }));
        });
    }
-
-
-    private getToken(){
-      return JSON.parse(localStorage.getItem('token'))?JSON.parse(localStorage.getItem('token')).token:null;
-    }
-    private jwt(token) {
-        // create authorization header with jwt token
-        if (token) {
-            let headers = new Headers({ 'Authorization': 'JWT ' + token, 'Content-Type': 'application/json'});
-            return new RequestOptions({ headers: headers });
-        }
-    }
-
 }
